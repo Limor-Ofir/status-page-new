@@ -1,0 +1,21 @@
+# Use the official Nginx image as the base
+FROM nginx:latest
+
+# Copy the custom Nginx configuration file
+COPY ./nginx.conf /etc/nginx/nginx.conf
+
+# Copy the static files to Nginx's default web root directory
+COPY ./static /usr/share/nginx/html/static
+
+# Copy the media files to Nginx's default web root directory (if required)
+COPY ./media /usr/share/nginx/html/media
+
+COPY /etc/ssl/certs/status-page.crt /etc/ssl/certs/
+COPY /etc/ssl/certs/status-page.key /etc/ssl/private/
+
+# Expose port 80 for HTTP traffic
+EXPOSE 80 443
+
+# Start Nginx when the container starts
+CMD ["nginx", "-g", "daemon off;"]
+
